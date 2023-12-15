@@ -4,8 +4,4 @@ public class IO extends Instruction{
         super(opcode, binOpcode);
     }
 
-    @Override
-    public byte[] castToBinary() {
-        return new byte[0];
-    }
 }

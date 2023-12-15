@@ -3,6 +3,9 @@ import java.util.HashMap;
 public class Library {
     static HashMap<String, Instruction> instructions = new HashMap<>();
     static HashMap<String, String> labelTable = new HashMap<>();
+    public static void loadLibrary(){
+        libraryOfInstructions();
+    }
     private static void libraryOfInstructions() {
         //Register Instruction
         instructions.put("CLA", new Register("CLA", "0111100000000000"));
@@ -32,13 +35,16 @@ public class Library {
         //Memory Instruction
         instructions.put("AND" , new Memory("AND" ,"000"));
         instructions.put("ADD" , new Memory("ADD" ,"001"));
-        instructions.put("LDA" , new Memory("LDA" ,"011"));
-        instructions.put("STA" , new Memory("STA" ,"100"));
-        instructions.put("BUN" , new Memory("BUN" ,"101"));
-        instructions.put("BSA" , new Memory("BSA" ,"110"));
-        instructions.put("ISZ" , new Memory("ISZ" ,"111"));
+        instructions.put("LDA" , new Memory("LDA" ,"010"));
+        instructions.put("STA" , new Memory("STA" ,"011"));
+        instructions.put("BUN" , new Memory("BUN" ,"100"));
+        instructions.put("BSA" , new Memory("BSA" ,"101"));
+        instructions.put("ISZ" , new Memory("ISZ" ,"110"));
     }
     public static Instruction searchInLibrary(String s){
         return instructions.get(s);
+    }
+    public static String searchInLabelTable(String key){
+        return labelTable.get(key);
     }
 }
