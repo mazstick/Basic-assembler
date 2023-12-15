@@ -1,4 +1,7 @@
+0.Write the program manually
 1.Add 100 Numbers Program
 2.Subtraction Program
 3.Mul Program
 4.Add Program
+5.Hello
+6.Say my name
