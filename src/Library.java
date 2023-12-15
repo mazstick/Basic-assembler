@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class Library {
     static HashMap<String, Instruction> instructions = new HashMap<>();
-
+    static HashMap<String, String> labelTable = new HashMap<>();
     private static void libraryOfInstructions() {
         //Register Instruction
         instructions.put("CLA", new Register("CLA", "0111100000000000"));

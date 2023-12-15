@@ -9,12 +9,15 @@ public class Parser {
             String[] parts = lines[i].split("\\s+");
             int j = 0;
             if (parts[j].contains(",")) {
-                //add this to label table (based on HashMap)
+                labelTable(parts[j] , i);
                 j++;
             }
             instructions.add(identifyInstruction(parts, j));
         }
         return instructions;
+    }
+    private void labelTable(String part, int line) {
+        Library.labelTable.put(part.substring(0,part.length()-1),String.valueOf(line));
     }
 
     private Instruction identifyInstruction(String[] parts, int j) {
