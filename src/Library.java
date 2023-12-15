@@ -42,7 +42,18 @@ public class Library {
         instructions.put("ISZ" , new Memory("ISZ" ,"110"));
     }
     public static Instruction searchInLibrary(String s){
-        return instructions.get(s);
+        Instruction t = instructions.get(s);
+        if(t == null) return null;
+        if (t.getClass().equals(Memory.class)){
+            return new Memory(t.getOpcode(),t.getBinOpcode());
+        }
+        if (t.getClass().equals(Register.class)){
+            return new Register(t.getOpcode(),t.getBinOpcode());
+        }
+        if (t.getClass().equals(IO.class)){
+            return new IO(t.getOpcode(),t.getBinOpcode());
+        }
+        return new Pseudo(t.getOpcode());
     }
     public static String searchInLabelTable(String key){
         return labelTable.get(key);
