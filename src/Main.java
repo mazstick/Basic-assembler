@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String assembleCode = selectProgram();
+        String path = pathBuilder();
+        String assembleCode = selectProgram(path);
         System.out.println(assembleCode);
         Library.loadLibrary();
         Parser parser = new Parser();
@@ -14,11 +15,30 @@ public class Main {
         if (instructions == null) {
             return;
         }
-        assembler.assemble(instructions);
+        System.out.println("-------------------------------------");
+        String machineCode = assembler.assemble(instructions);
+        machineCodeToFlie(machineCode, path);
+    }
+    private static void machineCodeToFlie(String machineCode, String path) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("-------------------------------------");
+        System.out.println("Do you want to store machine code ?\n" +
+                "1.YES\n" +
+                "2.NO\n");
+        int command = scanner.nextInt();
+            if (command == 1) {
+                writeMachineFile(path, machineCode);
+            }
     }
 
-    private static String selectProgram() throws IOException {
-        String path = pathBuilder();
+    private static void writeMachineFile(String path, String machineCode) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder(path);
+        stringBuilder.insert(stringBuilder.length()-4,"(Machine Code)");
+        RandomAccessFile rFile = new RandomAccessFile(stringBuilder.toString(),"rw");
+        rFile.writeBytes(machineCode);
+    }
+
+    private static String selectProgram(String path) throws IOException {
         RandomAccessFile rfile = new RandomAccessFile(path, "r");
         StringBuilder result = new StringBuilder();
         while (rfile.getFilePointer() < rfile.length()) {
@@ -75,8 +95,8 @@ public class Main {
         }
         menu.seek(menu.length());
         String s = String.valueOf(counter);
-        String temp = s +"."+ name;
-       menu.writeBytes("\n");
+        String temp = s + "." + name;
+        menu.writeBytes("\n");
         menu.write(temp.getBytes());
     }
 }

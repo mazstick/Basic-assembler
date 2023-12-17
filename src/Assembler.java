@@ -4,15 +4,16 @@ import java.util.List;
 public class Assembler {
     final int memoryCapacity = 4095;
 
-    public void assemble(List<Instruction> instructions) {
+    public String assemble(List<Instruction> instructions) {
         int org = 0;
+        StringBuilder stringBuilder = new StringBuilder();
         for (Instruction instruction : instructions) {
             if (instruction.getOpcode().equals("ORG")) {
                 Pseudo p = (Pseudo) instruction;
                 org = Integer.parseInt(p.getOperand(), 16);
                 if (org > memoryCapacity) {
                     System.err.println("ORG out of memory capacity : " + p.getOperand() + " (HEX)");
-                    return;
+                    return "";
                 }
                 continue;
             }
@@ -28,9 +29,13 @@ public class Assembler {
                 Memory memory = (Memory) instruction;
                 buildBinCodeOfMemory(memory);
             }
-            System.out.printf("%-6s     %s%n", Integer.toBinaryString(org), instruction.getBinOpcode());
+
+            stringBuilder.append(Integer.toBinaryString(org));
+            stringBuilder.append("      "+instruction.getBinOpcode()+"\n");
+            System.out.printf("%-6s    %s",Integer.toBinaryString(org),instruction.getBinOpcode()+"\n");
             org++;
         }
+        return stringBuilder.toString();
     }
 
     private void buildBinCodeOfPseudo(Pseudo pseudo) {
